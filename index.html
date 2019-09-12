@@ -25,8 +25,25 @@
         var rightPressed = false;
         var leftPressed = false;
 
+        var brickRowCount = 3;
+        var brickColumnCount = 5;
+        var brickWidth = 75;
+        var brickHeigh = 20;
+        var brickPadding = 10;
+        var brickOffsetTop = 30;
+        var brickOffsetLeft = 30;
+
+        var bricks = [];
+
+        for (let r = 0; r < brickRowCount; r++) {
+            bricks[r] = [];
+            for (let c = 0; c < brickColumnCount; c++) {
+                bricks[r][c] = {x: 0, y: 0};
+            }            
+        }
+
         document.addEventListener("keydown", keyDownHandler, false);
-        document.addEventListener("keyup", keyUpHandler, false);
+        document.addEventListener("keyup", keyUpHandler, false); 
 
         function drawBall() {
             ctx.beginPath();
@@ -44,8 +61,25 @@
             ctx.closePath();
         }
 
+        function drawBricks() {
+            for (let r = 0; r < brickRowCount; r++) {
+                for (let c = 0; c < brickColumnCount; c++) {
+                    var brickX = (c * (brickWidth + brickPadding)) + brickOffsetLeft;
+                    var brickY = (r * (brickHeigh + brickPadding)) + brickOffsetTop;
+                    bricks[r][c].x = brickX;
+                    bricks[r][c].y = brickY;
+                    ctx.beginPath();
+                    ctx.rect(brickX, brickY, brickWidth, brickHeigh);
+                    ctx.fillStyle = "#0095DD";
+                    ctx.fill();
+                    ctx.closePath();
+                }    
+            }            
+        }
+
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBricks();
             drawBall();
             drawPaddle();
             
@@ -57,8 +91,7 @@
                 dy = -dy;
             }
             else if (y + dy > canvas.height - ballRarius) {
-                if (x > paddleX && x < paddleX + paddleWidth
-                && y > canvas.height - paddleHeight - 30) {
+                if (x > paddleX && x < paddleX + paddleWidth && y > canvas.height - paddleHeight - ballRarius) {
                     dy = -dy;
                 }
                 else{
