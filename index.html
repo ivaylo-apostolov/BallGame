@@ -53,8 +53,19 @@
                 dx = -dx;
             }
             
-            if (y + dy < ballRarius || y + dy > canvas.height - ballRarius) {
+            if (y + dy < ballRarius) {
                 dy = -dy;
+            }
+            else if (y + dy > canvas.height - ballRarius) {
+                if (x > paddleX && x < paddleX + paddleWidth
+                && y > canvas.height - paddleHeight - 30) {
+                    dy = -dy;
+                }
+                else{
+                    alert("GAME OVER");
+                    document.location.reload();
+                    clearInterval(interval);
+                }
             }
             
             x += dx;
@@ -92,7 +103,7 @@
             }
         }
 
-        setInterval(draw, 10);
+        var interval = setInterval(draw, 10);
     </script>
 </body>
 </html>
